@@ -1,0 +1,29 @@
+# Incident 2 — CloudWatch log excerpt
+# Source: /aws/lambda/companyx-nlp-evaluator-prod
+# Time window: 2024-04-01 08:00:03 UTC – 08:04:47 UTC
+#
+# Context for the reader:
+#   - This Lambda evaluates transcripts using the LLM and writes results to ES
+#   - The LLM client returns structured JSON; the response is validated against EvaluationResultSchema
+#   - A new version of the LLM API (v2) was deployed to production at 07:58 UTC today
+#   - Before the deploy, the evaluation success rate was >99% over the past 30 days
+#   - After the deploy, the on-call engineer noticed zero evaluations landing in ES
+#
+# Your task (Part 3): identify the root cause, how to fix it, and how to prevent it.
+
+2024-04-01T08:00:03.112Z	INFO	[nlpEvaluate] s3 event received bucket=companyx-ingest-tenant-a-production key=exports/2024-04-01/batch_0800.csv
+2024-04-01T08:00:03.201Z	INFO	[nlpEvaluate] parsed rows=52 tenantId=tenant-a modelVersion=gemini-1.5-pro@v2
+2024-04-01T08:00:03.891Z	INFO	[nlpEvaluate] llm call complete contactId=contact-9001 modelVersion=gemini-1.5-pro@v2
+2024-04-01T08:00:03.892Z	ERROR	[nlpEvaluate] StructuredOutputError: ZodError contactId=contact-9001 issues=[{"code":"invalid_type","expected":"number","received":"undefined","path":["overallScore"],"message":"Required"}]
+2024-04-01T08:00:03.893Z	INFO	[nlpEvaluate] row failed contactId=contact-9001 reason=StructuredOutputError
+2024-04-01T08:00:04.341Z	INFO	[nlpEvaluate] llm call complete contactId=contact-9002 modelVersion=gemini-1.5-pro@v2
+2024-04-01T08:00:04.342Z	ERROR	[nlpEvaluate] StructuredOutputError: ZodError contactId=contact-9002 issues=[{"code":"invalid_type","expected":"number","received":"undefined","path":["overallScore"],"message":"Required"}]
+2024-04-01T08:00:04.343Z	INFO	[nlpEvaluate] row failed contactId=contact-9002 reason=StructuredOutputError
+2024-04-01T08:00:04.891Z	INFO	[nlpEvaluate] llm call complete contactId=contact-9003 modelVersion=gemini-1.5-pro@v2
+2024-04-01T08:00:04.892Z	ERROR	[nlpEvaluate] StructuredOutputError: ZodError contactId=contact-9003 issues=[{"code":"invalid_type","expected":"number","received":"undefined","path":["overallScore"],"message":"Required"}]
+2024-04-01T08:00:05.102Z	INFO	[nlpEvaluate] row failed contactId=contact-9003 reason=StructuredOutputError
+2024-04-01T08:00:05.441Z	INFO	[nlpEvaluate] llm call complete contactId=contact-9004 modelVersion=gemini-1.5-pro@v2
+2024-04-01T08:00:05.442Z	ERROR	[nlpEvaluate] StructuredOutputError: ZodError contactId=contact-9004 issues=[{"code":"invalid_type","expected":"number","received":"undefined","path":["overallScore"],"message":"Required"}]
+2024-04-01T08:00:05.443Z	INFO	[nlpEvaluate] row failed contactId=contact-9004 reason=StructuredOutputError
+2024-04-01T08:04:47.009Z	INFO	[nlpEvaluate] batch complete attempted=52 succeeded=0 failed=52
+2024-04-01T08:04:47.010Z	INFO	[nlpEvaluate] summary fileName=batch_0800.csv attempted=52 succeeded=0 failed=52

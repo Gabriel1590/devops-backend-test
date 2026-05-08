@@ -1,0 +1,23 @@
+functions:
+  # TODO: define the ingest Lambda function here.
+  #
+  # Requirements:
+  #   - handler: src/handlers/ingest.handler
+  #   - timeout: appropriate for processing up to 500 rows (hint: see profile §2 — up to 900s is allowed)
+  #   - events: s3:ObjectCreated:* on the tenant ingest bucket
+  #   - reservedConcurrency: consider whether unlimited concurrency is safe for ES write throughput
+  #
+  # SQS integration (if you add an SQS queue as a buffer):
+  #   - batchSize: 1 (process one file at a time)
+  #   - visibilityTimeout: must be set correctly relative to Lambda timeout
+  #     Think carefully: what happens if SQS makes the message visible again before your Lambda finishes?
+  #
+  # Example structure (fill in the values):
+  # ingest:
+  #   handler: src/handlers/ingest.handler
+  #   timeout: ???
+  #   events:
+  #     - s3:
+  #         bucket: ???
+  #         event: s3:ObjectCreated:*
+  #         existing: true

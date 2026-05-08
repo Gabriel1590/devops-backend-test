@@ -1,0 +1,42 @@
+service: companyx-ingest
+
+frameworkVersion: '4'
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ${opt:region, 'us-east-1'}
+  stage: ${opt:stage, 'dev'}
+  environment: ${file(serverless.env.yml):environment}
+  # TODO: add iam.role.statements for the permissions your Lambda needs.
+  # Your Lambda will need access to at least:
+  #   - s3:GetObject on the ingest bucket
+  #   - ssm:GetParameter on /companyx-${stage}/llm_model_name
+  # See: https://www.serverless.com/framework/docs/providers/aws/guide/iam
+  iam:
+    role:
+      statements: []  # TODO: fill in IAM statements
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
+  - serverless-offline-ssm
+
+custom:
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: true
+    target: node20
+    platform: node
+
+  serverless-offline-ssm:
+    stages:
+      - offline
+      - dev
+    ssm:
+      /companyx-offline/llm_model_name: 'gemini-1.5-pro'
+      /companyx-dev/llm_model_name: 'gemini-1.5-pro'
+      # Add any other SSM params your handler reads at runtime
+
+functions: ${file(serverless.functions.yml):functions}
