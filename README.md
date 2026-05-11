@@ -1,6 +1,6 @@
 # CompanyX — Backend / DevOps Engineer Take-Home
 
-**Time budget:** ~4 hours of focused work. Do not go beyond 5 hours.
+**Time budget:** ~5 hours of focused work. Do not go beyond 6 hours.
 **Submission:** zip the project (excluding `node_modules/`) and email it back.
 
 ---
@@ -67,7 +67,7 @@ Fill in the IAM role statements in `serverless.yml` for the permissions your Lam
 
 ### Part 2 — Debug and fix planted bugs (~1h)
 
-Three bugs are planted somewhere in the **provided code** (files marked `PROVIDED`). They range from subtle to obvious.
+Three bugs are planted somewhere in the **provided code** (files marked `PROVIDED`). They range from subtle to obvious. One of the bugs has more than one observable symptom — finding both symptoms (and explaining how they relate to the same root cause) is what earns full credit on that bug.
 
 Find each bug, fix it, and write a 1-paragraph post-mortem for each in `POSTMORTEMS.md`:
 - What the bug is and where it lives
@@ -176,7 +176,7 @@ LLM_API_VERSION=v2 pnpm trigger:local fixtures/transcripts.csv
 
 **Part 2 — Debug (30 pts)**
 
-10 pts per bug: correct identification, correct fix, post-mortem addresses root cause and production impact.
+10 pts per bug: correct identification, correct fix, post-mortem addresses root cause and production impact. For the multi-symptom bug, full credit requires identifying both symptoms; partial credit if only one is found.
 
 **Part 3 — Analyze (15 pts)**
 
